@@ -1,30 +1,38 @@
 "use client";
 import Graphin, { Behaviors } from "@antv/graphin";
 
+import addEdgesStyles from "@/utils/addEdgesStyles";
 import { Utils } from "@antv/graphin";
-import { useState } from "react";
+import React, { useState } from "react";
+import UpdateNode from "./UpdateNode";
 
-const mockData = (count: number) => {
-  return Utils.mock(count).random().graphin();
-};
+
 
 const { DragCanvas, ZoomCanvas, DragNode, ActivateRelations } = Behaviors;
 
 export default () => {
-  const [data, setData] = useState(mockData(10));
+  const [state, setState] = React.useState({
+    selected: [],
+    data: Utils.mock(5).circle().graphin(),
+  });
   const [numberOfDataAdd, setNumberOfDataAdd] = useState<number>(5);
 
+  addEdgesStyles(state.data);
+
+  console.log('state', state)
+  
+  const { data } = state;
   return (
     <div className="w-screen h-screen relative ">
       <ActionsPannel
         data={data}
-        setData={setData}
         numberOfDataAdd={numberOfDataAdd}
         setNumberOfDataAdd={setNumberOfDataAdd}
       />
       <Graphin data={data}>
         <ZoomCanvas enableOptimize />
         <DragNode disabled />
+        <UpdateNode state={state} setState={setState} />
       </Graphin>
     </div>
   );
@@ -36,6 +44,7 @@ const ActionsPannel = ({
   numberOfDataAdd,
   setNumberOfDataAdd,
 }: any) => {
+
   return (
     <div className="">
       <div className="absolute mt-12 left-20 z-50 text-black text-2xl flex-col">
@@ -75,7 +84,7 @@ const ActionsPannel = ({
             />
           </div>
         </div>
-        <div
+        {/* <div
           style={{
             marginTop: "15px",
             background: "rgba(0, 0, 0, .5)",
@@ -91,12 +100,34 @@ const ActionsPannel = ({
             }}
             onClick={(e) => {
               e.preventDefault();
-              setData(mockData(numberOfDataAdd));
+              // setData(mockData(numberOfDataAdd));
             }}
           >
             Mock {numberOfDataAdd}
           </button>
-        </div>
+        </div> */}
+        {/* <div
+          style={{
+            marginTop: "25px",
+            background: "rgba(0, 0, 0, .5)",
+            color: "white",
+          }}
+        >
+          <button
+            style={{
+              display: "block",
+              width: "100%",
+              paddingRight: "15px",
+              paddingLeft: "15px",
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              updateStyles()
+            }}
+          >
+            Update styles
+          </button>
+        </div> */}
       </form>
     </div>
   );

@@ -38,3 +38,7 @@ body {
 .bw{
   border: 1px solid white;
 }
+
+.graphin-components-contextmenu-content li{ 
+  color: black;
+}
