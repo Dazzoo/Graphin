@@ -1,4 +1,4 @@
-import Graphin, { GraphinContext, Utils } from "@antv/graphin";
+import Graphin, { GraphinContext } from "@antv/graphin";
 import { ContextMenu } from "@antv/graphin-components";
 import "@antv/graphin-components/dist/index.css";
 import "@antv/graphin/dist/index.css";
@@ -132,6 +132,30 @@ const UpdateNode = ({ state, setState }: any) => {
                 },
               }
             ));
+
+              //         const newNode = {
+              //   comboId: undefined,
+              //   id: "node-5",
+              //   label: "node-5",
+              //   style: { 
+              //     label: {
+              //       value: "node-5",
+              //     }
+              //    },
+              //   type: "graphin-circle",
+              // }
+
+
+              // setState((prev: any) => (
+              //   {
+              //       ...prev,
+              //       data: {
+              //         nodes: [...prev.data.nodes, newNode],
+              //         edges: [...prev.data.edges],
+              //       },
+              //     }
+              //   ));
+
     }
   };
   return (

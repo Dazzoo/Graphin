@@ -26,6 +26,8 @@ export default () => {
     <div className="w-screen h-screen relative ">
       <ActionsPannel
         data={data}
+        state={state}
+        setState={setState}
         numberOfDataAdd={numberOfDataAdd}
         setNumberOfDataAdd={setNumberOfDataAdd}
       />
@@ -40,7 +42,8 @@ export default () => {
 
 const ActionsPannel = ({
   data,
-  setData,
+  state,
+  setState,
   numberOfDataAdd,
   setNumberOfDataAdd,
 }: any) => {
@@ -65,7 +68,7 @@ const ActionsPannel = ({
           padding: 1,
         }}
       >
-        <div>
+        {/* <div>
           <label
             htmlFor="email"
             className="block text-sm font-medium leading-6 text-gray-900"
@@ -84,7 +87,7 @@ const ActionsPannel = ({
             />
           </div>
         </div>
-        {/* <div
+        <div
           style={{
             marginTop: "15px",
             background: "rgba(0, 0, 0, .5)",
@@ -106,7 +109,10 @@ const ActionsPannel = ({
             Mock {numberOfDataAdd}
           </button>
         </div> */}
-        {/* <div
+
+
+
+        <div
           style={{
             marginTop: "25px",
             background: "rgba(0, 0, 0, .5)",
@@ -122,12 +128,37 @@ const ActionsPannel = ({
             }}
             onClick={(e) => {
               e.preventDefault();
-              updateStyles()
+
+              const newNode = {
+                comboId: undefined,
+                id: "node-5",
+                label: "node-5",
+                style: { 
+                  label: {
+                    value: "node-5",
+                  }
+                 },
+                type: "graphin-circle",
+              }
+
+
+              setState((prev: any) => (
+                {
+                    ...prev,
+                    data: {
+                      nodes: [...prev.data.nodes, newNode],
+                      edges: [...prev.data.edges],
+                    },
+                  }
+                ));
+
+
+              
             }}
           >
-            Update styles
+            Add New Node
           </button>
-        </div> */}
+        </div>
       </form>
     </div>
   );
