@@ -4,9 +4,8 @@ import Graphin, { Behaviors } from "@antv/graphin";
 import addEdgesStyles from "@/utils/addEdgesStyles";
 import { Utils } from "@antv/graphin";
 import React, { useState } from "react";
+import AddNode from "./AddNode";
 import UpdateNode from "./UpdateNode";
-
-
 
 const { DragCanvas, ZoomCanvas, DragNode, ActivateRelations } = Behaviors;
 
@@ -19,8 +18,29 @@ export default () => {
 
   addEdgesStyles(state.data);
 
-  console.log('state', state)
-  
+  const addNewNode = () => {
+    const newNode = {
+      id: `node-${Date.now()}`, // Unique ID for the new node
+      x: Math.random() * 500, // Random x position
+      y: Math.random() * 500, // Random y position
+      style: {
+        label: {
+          value: "New Node",
+        },
+      },
+    };
+
+    setState((prev) => ({
+      ...prev,
+      data: {
+        nodes: [...prev.data.nodes, newNode],
+        edges: [...prev.data.edges],
+      },
+    }));
+  };
+
+  console.log("state", state);
+
   const { data } = state;
   return (
     <div className="w-screen h-screen relative ">
@@ -28,6 +48,7 @@ export default () => {
         data={data}
         state={state}
         setState={setState}
+        addNewNode={addNewNode}
         numberOfDataAdd={numberOfDataAdd}
         setNumberOfDataAdd={setNumberOfDataAdd}
       />
@@ -35,6 +56,7 @@ export default () => {
         <ZoomCanvas enableOptimize />
         <DragNode disabled />
         <UpdateNode state={state} setState={setState} />
+        <AddNode />
       </Graphin>
     </div>
   );
@@ -45,9 +67,9 @@ const ActionsPannel = ({
   state,
   setState,
   numberOfDataAdd,
+  addNewNode,
   setNumberOfDataAdd,
 }: any) => {
-
   return (
     <div className="">
       <div className="absolute mt-12 left-20 z-50 text-black text-2xl flex-col">
@@ -86,8 +108,8 @@ const ActionsPannel = ({
               className="block w-full px-4 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
           </div>
-        </div>
-        <div
+        </div> */}
+        {/* <div
           style={{
             marginTop: "15px",
             background: "rgba(0, 0, 0, .5)",
@@ -110,8 +132,6 @@ const ActionsPannel = ({
           </button>
         </div> */}
 
-
-
         <div
           style={{
             marginTop: "25px",
@@ -128,32 +148,7 @@ const ActionsPannel = ({
             }}
             onClick={(e) => {
               e.preventDefault();
-
-              const newNode = {
-                comboId: undefined,
-                id: "node-5",
-                label: "node-5",
-                style: { 
-                  label: {
-                    value: "node-5",
-                  }
-                 },
-                type: "graphin-circle",
-              }
-
-
-              setState((prev: any) => (
-                {
-                    ...prev,
-                    data: {
-                      nodes: [...prev.data.nodes, newNode],
-                      edges: [...prev.data.edges],
-                    },
-                  }
-                ));
-
-
-              
+              addNewNode();
             }}
           >
             Add New Node

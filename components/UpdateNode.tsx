@@ -1,4 +1,4 @@
-import Graphin, { GraphinContext } from "@antv/graphin";
+import Graphin, { GraphinContext, Utils } from "@antv/graphin";
 import { ContextMenu } from "@antv/graphin-components";
 import "@antv/graphin-components/dist/index.css";
 import "@antv/graphin/dist/index.css";
