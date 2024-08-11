@@ -19,7 +19,7 @@ export default function AddNode() {
         },
       },
     };
-
+    console.log('graph.data', graph.data())
     graph.addItem("node", newNode);
     graph.refresh(); // Refresh the graph to reflect the changes
   };
@@ -53,7 +53,7 @@ export default function AddNode() {
             name: "添加节点",
           },
         ]}
-        // onChange={handleAddNode}
+        onChange={handleAddNode}
       />
     </ContextMenu>
   );

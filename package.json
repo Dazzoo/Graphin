@@ -9,7 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@antv/g6": "^5.0.11",
+    "@antv/g6": "^4.8.24",
     "@antv/graphin": "2.7.27",
     "@antv/graphin-components": "^2.4.1",
     "@antv/graphin-icons": "^1.0.0",

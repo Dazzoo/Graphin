@@ -30,13 +30,18 @@ export default () => {
       },
     };
 
-    setState((prev) => ({
-      ...prev,
-      data: {
-        nodes: [...prev.data.nodes, newNode],
-        edges: [...prev.data.edges],
-      },
-    }));
+    // Graphin.registerNode('test', newNode)
+    // Graphin.ref
+
+
+
+    // setState((prev) => ({
+    //   ...prev,
+    //   data: {
+    //     nodes: [...prev.data.nodes, newNode],
+    //     edges: [...prev.data.edges],
+    //   },
+    // }));
   };
 
   console.log("state", state);
