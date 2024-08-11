@@ -65,5 +65,5 @@ export default function() {
     graph.render();
   }, []);
 
-  return <div className='bg-white'  ref={ref}></div>;
+  return <div className='bg-white overflow-hidden h-screen'  ref={ref}></div>;
 }
