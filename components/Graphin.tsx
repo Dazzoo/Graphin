@@ -1,13 +1,35 @@
 "use client";
-import Graphin, { Behaviors } from "@antv/graphin";
-
 import addEdgesStyles from "@/utils/addEdgesStyles";
-import { Utils } from "@antv/graphin";
+import * as G6 from '@antv/g6';
+import Graphin, { Behaviors, Utils } from "@antv/graphin";
 import React, { useState } from "react";
 import AddNode from "./AddNode";
 import UpdateNode from "./UpdateNode";
 
 const { DragCanvas, ZoomCanvas, DragNode, ActivateRelations } = Behaviors;
+
+const testData = {
+  nodes: [
+    {
+      id: "node1",
+      label: "Circle1",
+      x: 150,
+      y: 150
+    },
+    {
+      id: "node2",
+      label: "Circle2",
+      x: 400,
+      y: 150
+    }
+  ],
+  edges: [
+    {
+      source: "node1",
+      target: "node2"
+    }
+  ]
+};
 
 export default () => {
   const [state, setState] = React.useState({
@@ -15,6 +37,10 @@ export default () => {
     data: Utils.mock(5).circle().graphin(),
   });
   const [numberOfDataAdd, setNumberOfDataAdd] = useState<number>(5);
+  const ref = React.useRef(null);
+  let graph: G6.Graph | null = null;
+
+
 
   addEdgesStyles(state.data);
 
@@ -57,7 +83,7 @@ export default () => {
         numberOfDataAdd={numberOfDataAdd}
         setNumberOfDataAdd={setNumberOfDataAdd}
       />
-      <Graphin data={data}>
+      <Graphin ref={ref} data={data}>
         <ZoomCanvas enableOptimize />
         <DragNode disabled />
         <UpdateNode state={state} setState={setState} />
