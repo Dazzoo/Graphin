@@ -15,12 +15,66 @@ const data = {
       label: "Circle2",
       x: 400,
       y: 150
+    },
+    {
+      id: "node3",
+      label: "Circle2",
+      x: 200,
+      y: 250
+    },
+    {
+      id: "node4",
+      label: "Circle2",
+      x: 50,
+      y: 350
+    },
+    {
+      id: "node5",
+      label: "Custom Label for Node 5",
+      x: 650,
+      y: 200
     }
   ],
   edges: [
     {
       source: "node1",
-      target: "node2"
+      target: "node2",
+      style: {
+        stroke: 'rgba(255, 0, 0, 1)', 
+        lineWidth: 13,   // Line width
+        endArrow: true  // Arrow at the end
+      }
+    },
+    {
+      source: "node1",
+      target: "node3",
+      style: {
+        stroke: 'rgba(0, 255, 0, 1)', 
+        lineWidth: 4,   // Line width
+        endArrow: true  // Arrow at the end
+      }
+    },
+    {
+      source: "node1",
+      target: "node4",
+      style: {
+        stroke: 'rgba(0, 0, 255, 1)', 
+        opacity: 0.2,
+        lineWidth: 15,   // Line width
+        endArrow: {
+          d: 13.7,
+          opacity: 0.3,
+        }
+      }
+    },
+    {
+      source: "node1",
+      target: "node5",
+      style: {
+        stroke: 'rgba(255, 255, 0, 1)',
+        lineWidth: 5,   // Line width
+        endArrow: true  // Arrow at the end
+      }
     }
   ]
 };
