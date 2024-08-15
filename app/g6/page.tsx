@@ -18,13 +18,13 @@ const data = {
     },
     {
       id: "node3",
-      label: "Circle2",
+      label: "Circle3",
       x: 200,
       y: 250
     },
     {
       id: "node4",
-      label: "Circle2",
+      label: "Circle4",
       x: 50,
       y: 350
     },
@@ -39,30 +39,33 @@ const data = {
     {
       source: "node1",
       target: "node2",
+      zIndex: 0,
       style: {
         stroke: 'rgba(255, 0, 0, 1)', 
-        lineWidth: 13,   // Line width
-        endArrow: true  // Arrow at the end
+        lineWidth: 13,
+        endArrow: true,
       }
     },
     {
       source: "node1",
       target: "node3",
+      zIndex: 0,
       style: {
         stroke: 'rgba(0, 255, 0, 1)', 
-        lineWidth: 4,   // Line width
-        endArrow: true  // Arrow at the end
+        lineWidth: 4,   
+        endArrow: true  
       }
     },
     {
       source: "node1",
       target: "node4",
+      zIndex: 0,
       style: {
         stroke: 'rgba(0, 0, 255, 1)', 
         opacity: 0.2,
-        lineWidth: 15,   // Line width
+        lineWidth: 15,
         endArrow: {
-          d: 13.7,
+          d: 18.7,
           opacity: 0.3,
         }
       }
@@ -70,10 +73,11 @@ const data = {
     {
       source: "node1",
       target: "node5",
+      zIndex: 0,
       style: {
         stroke: 'rgba(255, 255, 0, 1)',
         lineWidth: 5,   // Line width
-        endArrow: true  // Arrow at the end
+        endArrow: true,
       }
     }
   ]
@@ -85,6 +89,8 @@ export default function() {
 
   useEffect(() => {
     if (!graph && ref.current) {
+      data.edges.sort((a, b) => a.zIndex - b.zIndex);
+
       graph = new G6.Graph({
         container: ref.current,
         // width: 500,
@@ -96,46 +102,29 @@ export default function() {
             { type: "drag-node" }
           ]
         },
-        layout: {
-          type: "dagre",
-          rankdir: "BT", // 可选，默认为图的中心
-          // align: 'DL', // 可选
-          nodesep: 50, // 可选
-          ranksep: 90 // 可选
-          // controlPoints: true
-        },
         defaultNode: {
-          type: "rect-xml2"
+          type: 'circle',
+          size: [50],
+          color: '#5B8FF9',
+          style: {
+            fill: '#9EC9FF',
+            lineWidth: 3
+          }
         },
         defaultEdge: {
-          type: "quadratic",
           style: {
-            stroke: "#ffb203",
-            lineWidth: 3,
+            stroke: '#e2e2e2',
+            lineWidth: 2,
             endArrow: {
-              path: G6.Arrow.triangle(4, 4, 8),
-              d: 8
+              path: G6.Arrow.triangle(10, 10, 10),
+              fill: '#e2e2e2'
             }
-          },
-          edgeStateStyles: {
-            highlight: {
-              stroke: "#ffb203",
-              lineWidth: 5
-            },
-            dark: {
-              stroke: "#ffb20333"
-            }
-          },
-
-          curveOffset: 100
-          // controlPoints: [{ x: 10, y: 20 }]
+          }
         }
       });
 
       graph.data(data);
       graph.render();
-  
-      // graph.on('')
     }
   }, []);
 
