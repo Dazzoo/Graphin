@@ -93,29 +93,16 @@ const data = {
   ],
 };
 
-// Function to calculate degree centrality
-const calculateDegreeCentrality = (nodes: any[], edges: any[]) => {
-  const centrality: { [key: string]: number } = {};
-  nodes.forEach((node) => {
-    centrality[node.id] = 0;
-  });
+// Function to calculate centrality (example: degree centrality)
+const calculateCentrality = (nodes: any[], edges: any[]) => {
+  const centrality = new Map();
+  nodes.forEach((node) => centrality.set(node.id, 0));
   edges.forEach((edge) => {
-    centrality[edge.source]++;
-    centrality[edge.target]++;
+    centrality.set(edge.source, centrality.get(edge.source) + 1);
+    centrality.set(edge.target, centrality.get(edge.target) + 1);
   });
   return centrality;
 };
-
-// Calculate centrality and adjust node sizes
-const centrality = calculateDegreeCentrality(data.nodes, data.edges);
-data.nodes.forEach((node) => {
-  // @ts-ignore
-  node.size = 20 + centrality[node.id] * 10; // Base size 20, increase by 10 for each connection
-});
-
-// Sort nodes by size to ensure larger nodes are on top
-// @ts-ignore
-data.nodes.sort((a, b) => a.size - b.size);
 
 export default function () {
   const ref = React.useRef(null);
@@ -136,19 +123,22 @@ export default function () {
             { type: "drag-node" },
           ],
         },
+        fitCenter: true,
         defaultNode: {
-          type: "circle",
-          size: [50],
-          color: "#5B8FF9",
-          style: {
-            fill: "#9EC9FF",
-            lineWidth: 3,
+          size: 30, // Default size for nodes
+        },
+        nodeStateStyles: {
+          central: {
+            size: 50, // Larger size for central node
           },
         },
-        animate: true, // Boolean, whether to activate the animation when global changes happen
-        animateCfg: {
-          duration: 500, // Number, the duration of one animation
-          easing: 'easeCubic', // String, the easing function
+        layout: {
+          type: "force",
+          preventOverlap: true,
+          nodeSpacing: 50, // Minimum distance between nodes
+          animate: true, // Enable animation
+          animationDuration: 3000, // Duration of the animation in milliseconds
+          animationEasing: 'easeBounce', // Easing function for the animation      
         },
         defaultEdge: {
           style: {
@@ -161,15 +151,46 @@ export default function () {
           },
         },
       });
+
+      // Calculate centrality and update node sizes
+      const centrality = calculateCentrality(data.nodes, data.edges);
+      data.nodes.forEach((node) => {
+        // @ts-ignore
+        node.size = 30 + centrality.get(node.id) * 2; // Example size calculation
+      });
+
       // @ts-ignore
       graph.data(data);
       graph.render();
     }
   }, []);
 
+  const updateDataAndSort = (newNode: any, newEdge: any) => {
+    if (graph) {
+      const newData = {
+        nodes: [...graph.getNodes().map((node) => node.getModel()), newNode],
+        edges: [...graph.getEdges().map((edge) => edge.getModel()), newEdge],
+      };
+
+
+      if (graph) {
+        const centrality = calculateCentrality(newData.nodes, newData.edges);
+        newData.nodes.forEach((node) => {
+          // @ts-ignore
+          node.size = 30 + centrality.get(node.id) * 2; // Example size calculation
+        });
+
+        graph.changeData(newData);
+      }
+    }
+  };
+
   const addNewNode = () => {
+    const newNodeId = `node-${Date.now()}`;
+
     const newNode = {
-      id: `node-${Date.now()}`, // Unique ID for the new node
+      id: newNodeId, // Unique ID for the new node
+      label: newNodeId,
       x: Math.random() * 500, // Random x position
       y: Math.random() * 500, // Random y position
       style: {
@@ -179,7 +200,17 @@ export default function () {
       },
     };
 
-    graph?.addItem("node", newNode);
+    const newEdge = {
+      source: "node1", // Change this to the desired source node ID
+      target: newNodeId,
+      style: {
+        stroke: "rgba(0, 255, 255, 1)",
+        lineWidth: 5,
+        endArrow: true,
+      },
+    };
+
+    updateDataAndSort(newNode, newEdge);
   };
 
   const updateData = () => {
@@ -242,16 +273,6 @@ export default function () {
         },
       ],
     };
-
-    // Calculate centrality and adjust node sizes
-    const newCentrality = calculateDegreeCentrality(
-      newData.nodes,
-      newData.edges
-    );
-    newData.nodes.forEach((node) => {
-      // @ts-ignore
-      node.size = 20 + newCentrality[node.id] * 10; // Base size 20, increase by 10 for each connection
-    });
 
     // Sort nodes by size to ensure larger nodes are on top
     // @ts-ignore
